@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadicalHeights", "RadicalHeights\RadicalHeights.csproj", "{26AE41F6-2DAF-4BA0-89BC-A14EC9272A2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadicalHeights.Injector", "RadicalHeights.Injector\RadicalHeights.Injector.csproj", "{E15E204C-A26D-4142-88D9-865ECF342C48}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26AE41F6-2DAF-4BA0-89BC-A14EC9272A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26AE41F6-2DAF-4BA0-89BC-A14EC9272A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26AE41F6-2DAF-4BA0-89BC-A14EC9272A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26AE41F6-2DAF-4BA0-89BC-A14EC9272A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E15E204C-A26D-4142-88D9-865ECF342C48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E15E204C-A26D-4142-88D9-865ECF342C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E15E204C-A26D-4142-88D9-865ECF342C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E15E204C-A26D-4142-88D9-865ECF342C48}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EAF51416-ECBA-4768-9016-964EA0B55DA0}
+	EndGlobalSection
+EndGlobal
