@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading.Tasks;
+
+    using global::RadicalHeights.Native;
 
     using NetCoreEx.Geometry;
 
@@ -162,7 +165,7 @@
                         return false;
                     }
 
-                    if (Flag == ShowWindowCommands.SW_RESTORE || Flag == ShowWindowCommands.SW_SHOW || Flag == ShowWindowCommands.SW_SHOWDEFAULT)
+                    if (Flag == ShowWindowCommands.SW_RESTORE || Flag == ShowWindowCommands.SW_SHOWDEFAULT || Flag == ShowWindowCommands.SW_SHOWNORMAL)
                     {
                         return true;
                     }
@@ -200,7 +203,7 @@
                     return Native.Window.GetWindowRectangle(RadicalHeights._AttachedProcess.MainWindowHandle);
                 }
 
-                return new Rectangle();
+                return new Rectangle(0);
             }
         }
 
@@ -252,7 +255,24 @@
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="RadicalHeights"/> process memory reader.
+        /// </summary>
+        public static Memory Memory
+        {
+            get
+            {
+                if (RadicalHeights.IsAttached)
+                {
+                    return RadicalHeights._AttachedProcessMemory;
+                }
+
+                return null;
+            }
+        }
+
         private static Process _AttachedProcess;
+        private static Memory _AttachedProcessMemory;
 
         /// <summary>
         /// Initializes this instance.
@@ -301,6 +321,7 @@
             if (Processus != null)
             {
                 RadicalHeights._AttachedProcess = Processus;
+                RadicalHeights._AttachedProcessMemory = new Memory(Processus.Handle, RadicalHeights.MainModule.BaseAddress);
             }
         }
 
@@ -315,6 +336,19 @@
             }
 
             RadicalHeights._AttachedProcess = null;
+        }
+
+        /// <summary>
+        /// Waits / Blocks the current thread till the game starts.
+        /// </summary>
+        public static async Task WaitGameStart()
+        {
+            Logging.Info(typeof(RadicalHeights), "Waiting for you to start the game..");
+
+            while (RadicalHeights.IsRunning == false)
+            {
+                await Task.Delay(250);
+            }
         }
 
         /// <summary>

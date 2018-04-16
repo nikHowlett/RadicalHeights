@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadicalHeights", "RadicalHeights\RadicalHeights.csproj", "{26AE41F6-2DAF-4BA0-89BC-A14EC9272A2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadicalHeights.Injector", "RadicalHeights.Injector\RadicalHeights.Injector.csproj", "{E15E204C-A26D-4142-88D9-865ECF342C48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadicalHeights.Hacks", "RadicalHeights.Injector\RadicalHeights.Hacks.csproj", "{E15E204C-A26D-4142-88D9-865ECF342C48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -36,11 +36,13 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dll.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RadicalRecoil.cs" />
+    <Compile Include="RadicalEsp.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RadicalHeights\RadicalHeights.csproj">

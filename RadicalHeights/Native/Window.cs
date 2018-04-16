@@ -1,7 +1,6 @@
 ﻿namespace RadicalHeights.Native
 {
     using System;
-
     using NetCoreEx.Geometry;
 
     using WinApi.User32;

@@ -2,8 +2,8 @@
 {
     using System;
     using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
+
+    using global::RadicalHeights.Native;
 
     public class Program
     {
@@ -17,42 +17,13 @@
             RadicalHeights.EnableEvents();
 
             Console.WriteLine("[*] Loading ESP.");
+            Console.WriteLine("[*] Waiting for you to start the game..");
 
-            if (RadicalHeights.IsAttached != true)
-            {
-                Program.WaitGameStart().Wait();
-            }
-
-            RadicalHeights.Attach();
+            RadicalHeights.WaitGameStart().Wait();
 
             if (RadicalHeights.IsAttached)
             {
-                Console.WriteLine("[*] Waiting for the game to initialize..");
-
-                Thread.Sleep(1000);
-
-                Console.WriteLine("[*] Initialized, injecting wallhack / esp.");
-
-                FileInfo DllFile = new FileInfo("Library/System.Radical.dll");
-
-                if (DllFile.Exists)
-                {
-                    bool Injected = Dll.TryInject(RadicalHeights.AttachedProcess, DllFile.FullName);
-
-                    if (Injected)
-                    {
-                        Console.WriteLine("[*] ------------ HACK INJECTED ------------");
-                        Console.WriteLine("[*] Press Ctrl + Alt + L to enable ESP.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("[*] Error, failed to inject into RadicalHeights.exe.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("[*] Error, Dll not found.");
-                }
+                Program.Inject();
             }
             else
             {
@@ -64,15 +35,33 @@
         }
 
         /// <summary>
-        /// Waits / Blocks the current thread till the game starts.
+        /// Injects the cheat.
         /// </summary>
-        public static async Task WaitGameStart()
+        public static void Inject()
         {
-            Console.WriteLine("[*] Waiting for you to start the game..");
+            Console.WriteLine("[*] Initialized, injecting wallhack / esp.");
 
-            while (RadicalHeights.IsRunning == false)
+            FileInfo DllFile = new FileInfo("Library/System.Radical.dll");
+
+            if (DllFile.Exists)
             {
-                await Task.Delay(250);
+                bool Injected = Dll.TryInject(RadicalHeights.AttachedProcess, DllFile.FullName);
+
+                if (Injected)
+                {
+                    Console.WriteLine("[*] ------------ HACK INJECTED ------------");
+                    Console.WriteLine("[*] Press Ctrl + Alt + L to enable ESP.");
+
+                    RadicalEsp.Run();
+                }
+                else
+                {
+                    Console.WriteLine("[*] Error, failed to inject into RadicalHeights.exe.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("[*] Error, Dll not found.");
             }
         }
     }

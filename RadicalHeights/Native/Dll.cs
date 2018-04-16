@@ -1,4 +1,4 @@
-﻿namespace RadicalHeights.Injector
+﻿namespace RadicalHeights.Native
 {
     using System;
     using System.Diagnostics;
@@ -14,16 +14,16 @@
         public static extern IntPtr GetModuleHandle(string ModuleName);
 
         [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-        static extern IntPtr GetProcAddress(IntPtr Module, string ProcName);
+        public static extern IntPtr GetProcAddress(IntPtr Module, string ProcName);
 
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        static extern IntPtr VirtualAllocEx(IntPtr Process, IntPtr Address, uint Size, uint AllocationType, uint Protect);
+        public static extern IntPtr VirtualAllocEx(IntPtr Process, IntPtr Address, uint Size, uint AllocationType, uint Protect);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool WriteProcessMemory(IntPtr Process, IntPtr BaseAddress, byte[] Buffer, uint Size, out UIntPtr NumberOfBytesWritten);
+        public static extern bool WriteProcessMemory(IntPtr Process, IntPtr BaseAddress, byte[] Buffer, uint Size, out UIntPtr NumberOfBytesWritten);
 
         [DllImport("kernel32.dll")]
-        static extern IntPtr CreateRemoteThread(IntPtr Process, IntPtr ThreadAttributes, uint StackSize, IntPtr StartAddress, IntPtr Parameter, uint CreationFlags, IntPtr ThreadId);
+        public static extern IntPtr CreateRemoteThread(IntPtr Process, IntPtr ThreadAttributes, uint StackSize, IntPtr StartAddress, IntPtr Parameter, uint CreationFlags, IntPtr ThreadId);
         
         // -----------------------------------------
 
@@ -43,12 +43,12 @@
         /// <param name="Path">The path.</param>
         public static bool TryInject(Process Process, string Path)
         {
-            IntPtr Handle               = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, false, Process.Id);
-            IntPtr LoadLibraryAddr      = GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryA");
-            IntPtr AllocMemoryAddr      = VirtualAllocEx(Handle, IntPtr.Zero, (uint) ((Path.Length + 1) * Marshal.SizeOf(typeof(char))), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+            IntPtr Handle                   = Dll.OpenProcess(Dll.PROCESS_CREATE_THREAD | Dll.PROCESS_QUERY_INFORMATION | Dll.PROCESS_VM_OPERATION | Dll.PROCESS_VM_WRITE | Dll.PROCESS_VM_READ, false, Process.Id);
+            IntPtr LoadLibraryAddr          = Dll.GetProcAddress(Dll.GetModuleHandle("kernel32.dll"), "LoadLibraryA");
+            IntPtr AllocMemoryAddr          = Dll.VirtualAllocEx(Handle, IntPtr.Zero, (uint) ((Path.Length + 1) * Marshal.SizeOf(typeof(char))), Dll.MEM_COMMIT | Dll.MEM_RESERVE, Dll.PAGE_READWRITE);
             
-            bool Written                = WriteProcessMemory(Handle, AllocMemoryAddr, Encoding.Default.GetBytes(Path), (uint) ((Path.Length + 1) * Marshal.SizeOf(typeof(char))), out _);
-            IntPtr RemoteThreadAddr     = CreateRemoteThread(Handle, IntPtr.Zero, 0, LoadLibraryAddr, AllocMemoryAddr, 0, IntPtr.Zero);
+            bool Written                    = Dll.WriteProcessMemory(Handle, AllocMemoryAddr, Encoding.Default.GetBytes(Path), (uint) ((Path.Length + 1) * Marshal.SizeOf(typeof(char))), out _);
+            IntPtr RemoteThreadAddr         = Dll.CreateRemoteThread(Handle, IntPtr.Zero, 0, LoadLibraryAddr, AllocMemoryAddr, 0, IntPtr.Zero);
 
             return Written;
         }
