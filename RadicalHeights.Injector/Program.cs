@@ -2,11 +2,17 @@
 {
     using System;
     using System.IO;
+    using System.Threading;
 
     using global::RadicalHeights.Native;
 
     public class Program
     {
+        /// <summary>
+        /// The version of the cheat.
+        /// </summary>
+        private const string Version = "V2";
+
         /// <summary>
         /// Defines the entry point of the application.
         /// </summary>
@@ -40,19 +46,19 @@
         public static void Inject()
         {
             Console.WriteLine("[*] Initialized, injecting wallhack / esp.");
+            Console.WriteLine("[*] Please wait...");
 
-            FileInfo DllFile = new FileInfo("Library/System.Radical.dll");
+            FileInfo DllFile = new FileInfo("Library/RadicalHeights.Cheat." + Version + ".dll");
 
             if (DllFile.Exists)
             {
+                Thread.Sleep(7000);
+
                 bool Injected = Dll.TryInject(RadicalHeights.AttachedProcess, DllFile.FullName);
 
                 if (Injected)
                 {
                     Console.WriteLine("[*] ------------ HACK INJECTED ------------");
-                    Console.WriteLine("[*] Press Ctrl + Alt + L to enable ESP.");
-
-                    RadicalEsp.Run();
                 }
                 else
                 {

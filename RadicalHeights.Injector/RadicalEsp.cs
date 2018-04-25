@@ -45,7 +45,7 @@
                 return;
             }
 
-            RadicalEsp.FindMatches();
+            // RadicalEsp.FindMatches();
             RadicalEsp.Draw();
             RadicalEsp.Initialized = true;
         }
@@ -85,23 +85,28 @@
 
             // ...
 
-            var Pixels   = GameScreen.GetGamePixels();
+            // var Pixels   = GameScreen.GetGamePixels();
             var HandleDc = GameScreen.GetDC(IntPtr.Zero);
-            var Matches  = GameScreen.MatchingPixels;
+            // var Matches  = GameScreen.MatchingPixels;
 
-            if (Matches == null)
+            // if (Matches == null)
+            // {
+            //     return;
+            // }
+
+            if (RadicalHeights.IsOnScreen == false)
             {
                 return;
             }
 
             using (Graphics Graphics = Graphics.FromHdc(HandleDc))
             {
-                foreach (Point Point in Matches)
+                /* foreach (Point Point in Matches)
                 {
                     Graphics.FillRectangle(new SolidBrush(Color.Black), Point.X, Point.Y, 3, 3);
-                }
+                } */
 
-                Graphics.FillRectangle(new SolidBrush(Color.Black), 800, 800, 100, 100);
+                Graphics.FillRectangle(new SolidBrush(Color.Black), 0, 0, 300, 30);
             }
 
             GameScreen.ReleaseDC(IntPtr.Zero, HandleDc);

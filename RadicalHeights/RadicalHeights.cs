@@ -321,7 +321,6 @@
             if (Processus != null)
             {
                 RadicalHeights._AttachedProcess = Processus;
-                RadicalHeights._AttachedProcessMemory = new Memory(Processus.Handle, RadicalHeights.MainModule.BaseAddress);
             }
         }
 
