@@ -11,7 +11,7 @@
         /// <summary>
         /// The version of the cheat.
         /// </summary>
-        private const string Version = "V2";
+        private const string Version = "V3";
 
         /// <summary>
         /// Defines the entry point of the application.
