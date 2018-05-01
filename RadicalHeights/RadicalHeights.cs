@@ -6,7 +6,9 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using global::RadicalHeights.Native;
+    using GameDef;
+    using GameDef.Memory;
+    using GameDef.Native;
 
     using NetCoreEx.Geometry;
 
@@ -110,7 +112,7 @@
             {
                 if (RadicalHeights.AttachedProcess != null)
                 {
-                    var Placement = Native.Window.GetWindowPlacement(RadicalHeights._AttachedProcess.MainWindowHandle);
+                    var Placement = GameDef.Native.Window.GetWindowPlacement(RadicalHeights._AttachedProcess.MainWindowHandle);
 
                     if (Placement.ShowCmd == ShowWindowCommands.SW_HIDE || Placement.ShowCmd == ShowWindowCommands.SW_MINIMIZE)
                     {
@@ -131,7 +133,7 @@
             {
                 if (RadicalHeights.AttachedProcess != null)
                 {
-                    var Placement = Native.Window.GetWindowPlacement(RadicalHeights._AttachedProcess.MainWindowHandle);
+                    var Placement = GameDef.Native.Window.GetWindowPlacement(RadicalHeights._AttachedProcess.MainWindowHandle);
 
                     if (Placement.ShowCmd == ShowWindowCommands.SW_MAXIMIZE || Placement.ShowCmd == ShowWindowCommands.SW_SHOWMAXIMIZED)
                     {
@@ -152,7 +154,7 @@
             {
                 if (RadicalHeights.AttachedProcess != null)
                 {
-                    var Placement = Native.Window.GetWindowPlacement(RadicalHeights._AttachedProcess.MainWindowHandle);
+                    var Placement = GameDef.Native.Window.GetWindowPlacement(RadicalHeights._AttachedProcess.MainWindowHandle);
                     var Flag      = Placement.ShowCmd;
 
                     if (RadicalHeights.IsMaximized)
@@ -184,7 +186,7 @@
             {
                 if (RadicalHeights.AttachedProcess != null)
                 {
-                    return Native.Window.GetWindowPlacement(RadicalHeights._AttachedProcess.MainWindowHandle);
+                    return GameDef.Native.Window.GetWindowPlacement(RadicalHeights._AttachedProcess.MainWindowHandle);
                 }
 
                 return new WindowPlacement();
@@ -200,7 +202,7 @@
             {
                 if (RadicalHeights.AttachedProcess != null)
                 {
-                    return Native.Window.GetWindowRectangle(RadicalHeights._AttachedProcess.MainWindowHandle);
+                    return GameDef.Native.Window.GetWindowRectangle(RadicalHeights._AttachedProcess.MainWindowHandle);
                 }
 
                 return new Rectangle(0);
@@ -270,6 +272,15 @@
                 return null;
             }
         }
+        
+        /// <summary>
+        /// Gets the <see cref="RadicalHeights"/> hooked handle.
+        /// </summary>
+        public static IntPtr HookedHandle
+        {
+            get;
+            private set;
+        }
 
         private static Process _AttachedProcess;
         private static Memory _AttachedProcessMemory;
@@ -318,9 +329,21 @@
                 }
             }
 
+            IntPtr ProcessHandle = IntPtr.Zero;
+
             if (Processus != null)
             {
                 RadicalHeights._AttachedProcess = Processus;
+
+                if ((ProcessHandle = Win32.OpenProcess(Processus)) != IntPtr.Zero)
+                {
+                    RadicalHeights.HookedHandle = ProcessHandle;
+                    RadicalHeights._AttachedProcessMemory = new Memory(ProcessHandle);
+                }
+                else
+                {
+                    Logging.Warning(typeof(RadicalHeights), "Couldn't open the process with all permissions !");
+                }
             }
         }
 

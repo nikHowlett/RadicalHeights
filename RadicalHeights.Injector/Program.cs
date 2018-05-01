@@ -4,7 +4,7 @@
     using System.IO;
     using System.Threading;
 
-    using global::RadicalHeights.Native;
+    using GameDef.Native;
 
     public class Program
     {

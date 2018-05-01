@@ -1,5 +1,7 @@
 ﻿namespace RadicalHeights.Events.Handlers.Windows
 {
+    using GameDef;
+
     public class WindowsMinimizedEvent : Event
     {
         /// <summary>

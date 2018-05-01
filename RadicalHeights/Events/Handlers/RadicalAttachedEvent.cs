@@ -1,5 +1,7 @@
 ﻿namespace RadicalHeights.Events.Handlers
 {
+    using GameDef;
+
     public class RadicalAttachedEvent : Event
     {
         /// <summary>
